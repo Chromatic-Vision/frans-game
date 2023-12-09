@@ -1,4 +1,7 @@
 import pygame
+import map
+import player
+from player import Direction
 
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
@@ -60,7 +63,6 @@ class Game:
     def draw(self):
 
         self.display.fill((0, 0, 0))
-
         screen = self.screen
         screen.fill((255, 0, 0))
 
