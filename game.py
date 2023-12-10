@@ -1,7 +1,6 @@
 import pygame
 import player
 import map
-from player import Direction
 
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
@@ -10,14 +9,17 @@ TILE_SIZE = 10
 class Game:
 
     def __init__(self):
+
         _ = pygame.display.set_mode((0, 0))  # fix bug on windows not going fullscreen
 
         self.display = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
         self.screen = pygame.Surface((SCREEN_TILES[0] * TILE_SIZE, SCREEN_TILES[1] * TILE_SIZE))
 
-        self.player = player.Player()
+        self.player = player.Player(self)
 
-        self.current_map_name = 'test2'
+        map.load_properties()
+
+        self.current_map_name = 'test'
         self.current_map = None
 
         self.refresh_map(self.current_map_name)
@@ -34,44 +36,7 @@ class Game:
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT]:
-            self.player.x -= self.player.speed
-            self.player.direction = Direction.LEFT
-
-            if self.player.x < 0:
-                self.player.x = 0
-
-            if self.player.x > self.current_map.width * TILE_SIZE - (TILE_SIZE * 1):
-                self.player.x = self.current_map.width * TILE_SIZE - (TILE_SIZE * 1) # :skull:
-
-        if keys[pygame.K_RIGHT]:
-            self.player.x += self.player.speed
-            self.player.direction = Direction.RIGHT
-            # TODO
-
-            if self.player.x > self.current_map.width * TILE_SIZE - (TILE_SIZE * 1):
-                self.player.x = self.current_map.width * TILE_SIZE - (TILE_SIZE * 1)
-
-        if keys[pygame.K_UP]:
-            self.player.y -= self.player.speed
-            self.player.direction = Direction.UP
-
-            if self.player.y < 0:
-                self.player.y = 0
-
-            if self.player.y > self.current_map.height * TILE_SIZE - (TILE_SIZE * 1):
-                self.player.y = self.current_map.height * TILE_SIZE - (TILE_SIZE * 1)
-
-        if keys[pygame.K_DOWN]:
-            self.player.y += self.player.speed
-            self.player.direction = Direction.DOWN
-            # TODO
-
-            if self.player.y < 0:
-                self.player.y = 0
-
-            if self.player.y > self.current_map.height * TILE_SIZE - (TILE_SIZE * 1):
-                self.player.y = self.current_map.height * TILE_SIZE - (TILE_SIZE * 1)
+        self.player.move(keys)
 
 
     def refresh_map(self, map_name: str):
@@ -96,7 +61,7 @@ class Game:
         player_x = self.player.x
         player_y = self.player.y
 
-        print(self.player.x, limit_x)
+        # print(self.player.x, limit_x)
 
         if limit_x < self.player.x:
             camera_x = self.player.x - limit_x
@@ -113,7 +78,6 @@ class Game:
         if self.player.y > self.current_map.height * TILE_SIZE - limit_y:
             camera_y = (self.current_map.height * TILE_SIZE - limit_y) - player_y
             player_y = self.player.y - (self.current_map.height * TILE_SIZE - limit_y) + limit_y
-
 
         self.current_map.render(screen, camera_x / TILE_SIZE,
                                 camera_y / TILE_SIZE)

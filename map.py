@@ -4,6 +4,35 @@ import game
 
 current_map = 0
 texture_cache = {}
+properties = {}
+
+
+class BlockProperty:
+    def __init__(self, type_: int):
+        self.filename = os.path.join('assets', 'blocks', str(type_))
+
+        with open(self.filename) as file:
+            self.raw = file.read()
+
+        split = self.raw.split('\n')
+
+        self.solid = False
+        self.flag = 0
+
+        for line in split:
+            lhs, _, rhs = line.partition(':')
+            if lhs == 'solid':
+                self.solid = rhs != 'true'
+            elif lhs == 'flag':
+                self.flag = int(rhs)
+            else:
+                raise ValueError(f'incorrect property {lhs} in file {self.filename}')
+
+
+def load_properties():
+    for filename in os.listdir(os.path.join('assets', 'blocks')):
+        if not os.path.basename(filename).endswith('.bmp'):
+            properties[int(filename)] = BlockProperty(int(filename))
 
 
 class Block:
@@ -20,6 +49,8 @@ class Block:
             t = pygame.image.load(os.path.join('assets', 'blocks', str(self.type) + '.bmp'))
             texture_cache[self.type] = t
             self.texture = t
+
+        self.properties = properties[self.type]
 
     def get_texture(self) -> pygame.Surface:
         return self.texture
@@ -41,9 +72,11 @@ class Map:
 
         self.blocks = []
         for y, line in enumerate(self.raw_blocks):
+            l = []
             for x, b in enumerate(line):
                 type_, _, flags = b.partition(':')
-                self.blocks.append(Block(int(type_), flags, x, y))
+                l.append(Block(int(type_), flags, x, y))
+            self.blocks.append(l)
 
         self.width = len(self.raw_blocks[0])
         self.height = len(self.raw_blocks)
@@ -52,10 +85,10 @@ class Map:
         for x in range(game.SCREEN_TILES[0]):
             for y in range(game.SCREEN_TILES[1]):
                 # TODO: check if camera is in map, else raise an exception because Game should handle that?
-                i = int(y + camera_y) * self.width + int(x + camera_x)
-                try:
-                    s = self.blocks[i].get_texture()
-                    screen.blit(s, ((x - camera_x % 1) * game.TILE_SIZE, (y - camera_y % 1) * game.TILE_SIZE))
-                except:
-                    pass
+                # i = int(y + camera_y) * self.width + int(x + camera_x)
+                s = self.blocks[int(y + camera_y)][int(x + camera_x)].get_texture()
+                screen.blit(s, (round((x - camera_x % 1) * game.TILE_SIZE), round((y - camera_y % 1) * game.TILE_SIZE)))
                 # self.blocks[i].render(screen)
+
+    # blocks = [1, 1, 1, 1, 1...]
+    # splitted_blocks = [1, 1], [1, 1,], [...]
