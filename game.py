@@ -1,4 +1,7 @@
 import pygame
+import player
+import map
+from player import Direction
 
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
@@ -34,24 +37,41 @@ class Game:
         if keys[pygame.K_LEFT]:
             self.player.x -= self.player.speed
             self.player.direction = Direction.LEFT
+
             if self.player.x < 0:
                 self.player.x = 0
+
+            if self.player.x > self.current_map.width * TILE_SIZE - (TILE_SIZE * 1):
+                self.player.x = self.current_map.width * TILE_SIZE - (TILE_SIZE * 1) # :skull:
 
         if keys[pygame.K_RIGHT]:
             self.player.x += self.player.speed
             self.player.direction = Direction.RIGHT
             # TODO
 
+            if self.player.x > self.current_map.width * TILE_SIZE - (TILE_SIZE * 1):
+                self.player.x = self.current_map.width * TILE_SIZE - (TILE_SIZE * 1)
+
         if keys[pygame.K_UP]:
             self.player.y -= self.player.speed
             self.player.direction = Direction.UP
+
             if self.player.y < 0:
                 self.player.y = 0
+
+            if self.player.y > self.current_map.height * TILE_SIZE:
+                self.player.y = self.current_map.height * TILE_SIZE
 
         if keys[pygame.K_DOWN]:
             self.player.y += self.player.speed
             self.player.direction = Direction.DOWN
             # TODO
+
+            if self.player.y < 0:
+                self.player.y = 0
+
+            if self.player.y > self.current_map.height * TILE_SIZE:
+                self.player.y = self.current_map.height * TILE_SIZE
 
 
     def refresh_map(self, map_name: str):
@@ -62,7 +82,7 @@ class Game:
         self.display.fill((0, 0, 0))
 
         screen = self.screen
-        screen.fill((255, 0, 0))
+        screen.fill((0, 0, 0))
 
         assert self.current_map is not None
         assert self.player is not None
@@ -76,15 +96,20 @@ class Game:
         player_x = self.player.x
         player_y = self.player.y
 
-        print(self.player.x)
+        print(self.player.x, limit_x)
 
-        if limit_x < self.player.x < self.current_map.width * TILE_SIZE:
+        if limit_x < self.player.x:
             camera_x = self.player.x - limit_x
             player_x = limit_x
 
-        if self.player.y > limit_y:
+        if limit_y < self.player.y:
             camera_y = self.player.y - limit_y
             player_y = limit_y
+
+        if self.player.x > self.current_map.width * TILE_SIZE - limit_x:
+            camera_x = (self.current_map.width * TILE_SIZE - limit_x) - player_x
+            player_x = self.player.x - (self.current_map.width * TILE_SIZE - limit_x) + limit_x
+
 
         self.current_map.render(screen, camera_x / TILE_SIZE,
                                 camera_y / TILE_SIZE)
