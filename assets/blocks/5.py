@@ -1,7 +1,7 @@
 def place(block):
     # if game.player.x > TILE_SIZE * 10:
     #     game.refresh_map('test2')
-    if block.type == 4:
+    if block.type == 5:
         def update():
             if game.player.x // TILE_SIZE == block.x \
                     and game.player.y // TILE_SIZE == block.y:
