@@ -17,7 +17,7 @@ class Game:
 
         self.player = player.Player()
 
-        self.current_map_name = 'test'
+        self.current_map_name = 'test2'
         self.current_map = None
 
         self.refresh_map(self.current_map_name)

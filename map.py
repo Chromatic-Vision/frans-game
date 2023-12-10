@@ -53,6 +53,9 @@ class Map:
             for y in range(game.SCREEN_TILES[1]):
                 # TODO: check if camera is in map, else raise an exception because Game should handle that?
                 i = int(y + camera_y) * self.width + int(x + camera_x)
-                s = self.blocks[i].get_texture()
-                screen.blit(s, ((x - camera_x % 1) * game.TILE_SIZE, (y - camera_y % 1) * game.TILE_SIZE))
+                try:
+                    s = self.blocks[i].get_texture()
+                    screen.blit(s, ((x - camera_x % 1) * game.TILE_SIZE, (y - camera_y % 1) * game.TILE_SIZE))
+                except:
+                    pass
                 # self.blocks[i].render(screen)
