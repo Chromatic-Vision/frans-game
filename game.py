@@ -59,8 +59,8 @@ class Game:
             if self.player.y < 0:
                 self.player.y = 0
 
-            if self.player.y > self.current_map.height * TILE_SIZE:
-                self.player.y = self.current_map.height * TILE_SIZE
+            if self.player.y > self.current_map.height * TILE_SIZE - (TILE_SIZE * 1):
+                self.player.y = self.current_map.height * TILE_SIZE - (TILE_SIZE * 1)
 
         if keys[pygame.K_DOWN]:
             self.player.y += self.player.speed
@@ -70,8 +70,8 @@ class Game:
             if self.player.y < 0:
                 self.player.y = 0
 
-            if self.player.y > self.current_map.height * TILE_SIZE:
-                self.player.y = self.current_map.height * TILE_SIZE
+            if self.player.y > self.current_map.height * TILE_SIZE - (TILE_SIZE * 1):
+                self.player.y = self.current_map.height * TILE_SIZE - (TILE_SIZE * 1)
 
 
     def refresh_map(self, map_name: str):
@@ -109,6 +109,10 @@ class Game:
         if self.player.x > self.current_map.width * TILE_SIZE - limit_x:
             camera_x = (self.current_map.width * TILE_SIZE - limit_x) - player_x
             player_x = self.player.x - (self.current_map.width * TILE_SIZE - limit_x) + limit_x
+
+        if self.player.y > self.current_map.height * TILE_SIZE - limit_y:
+            camera_y = (self.current_map.height * TILE_SIZE - limit_y) - player_y
+            player_y = self.player.y - (self.current_map.height * TILE_SIZE - limit_y) + limit_y
 
 
         self.current_map.render(screen, camera_x / TILE_SIZE,
