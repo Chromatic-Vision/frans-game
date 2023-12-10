@@ -22,7 +22,7 @@ class BlockProperty:
         for line in split:
             lhs, _, rhs = line.partition(':')
             if lhs == 'solid':
-                self.solid = rhs != 'true'
+                self.solid = rhs == 'true'
             elif lhs == 'flag':
                 self.flag = int(rhs)
             else:

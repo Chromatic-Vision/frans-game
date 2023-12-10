@@ -30,6 +30,18 @@ class Player:
         screen.blit(self.textures[self.direction.value], (x, y))
     
     def move(self, keys):
+
+        def coll(x: float, y: float) -> bool:
+            if type(x) is float:
+                return self.game.current_map.blocks[round(y)][math.floor(x)].properties.solid \
+                    or self.game.current_map.blocks[round(y)][math.ceil(x)].properties.solid
+            else:
+                return self.game.current_map.blocks[math.floor(y)][round(x)].properties.solid \
+                    or self.game.current_map.blocks[math.ceil(y)][round(x)].properties.solid
+
+        old_x = self.x
+        old_y = self.y
+
         if keys[pygame.K_LEFT]:
             self.x -= self.speed
             self.direction = Direction.LEFT
@@ -40,12 +52,19 @@ class Player:
             if self.x > self.game.current_map.width * game.TILE_SIZE - (game.TILE_SIZE * 1):
                 self.x = self.game.current_map.width * game.TILE_SIZE - (game.TILE_SIZE * 1)  # :skull:
 
+            # print(coll(math.ceil(self.x / game.TILE_SIZE), self.y / game.TILE_SIZE), math.ceil(self.x / game.TILE_SIZE), round(self.y / game.TILE_SIZE))
+            if coll(math.floor(self.x / game.TILE_SIZE), self.y / game.TILE_SIZE): # ??
+                self.x = old_x
+
         if keys[pygame.K_RIGHT]:
             self.x += self.speed
             self.direction = Direction.RIGHT
 
             if self.x > self.game.current_map.width * game.TILE_SIZE - (game.TILE_SIZE * 1):
                 self.x = self.game.current_map.width * game.TILE_SIZE - (game.TILE_SIZE * 1)
+
+            if coll(math.ceil(self.x / game.TILE_SIZE), self.y / game.TILE_SIZE):
+                self.x = old_x
 
         if keys[pygame.K_UP]:
             self.y -= self.speed
@@ -57,6 +76,9 @@ class Player:
             if self.y > self.game.current_map.height * game.TILE_SIZE - (game.TILE_SIZE * 1):
                 self.y = self.game.current_map.height * game.TILE_SIZE - (game.TILE_SIZE * 1)
 
+            if coll(self.x / game.TILE_SIZE, math.floor(self.y / game.TILE_SIZE)):
+                self.y = old_y
+
         if keys[pygame.K_DOWN]:
             self.y += self.speed
             self.direction = Direction.DOWN
@@ -67,34 +89,5 @@ class Player:
             if self.y > self.game.current_map.height * game.TILE_SIZE - (game.TILE_SIZE * 1):
                 self.y = self.game.current_map.height * game.TILE_SIZE - (game.TILE_SIZE * 1)
 
-        def collision(x, y, hd, vd):
-            hd = (0, hd / 2, hd)
-            vd = (0, vd / 2, vd)
-            # dirs = [0, 1, -1]
-
-            def coll(x: float, y: float) -> bool:
-                return self.game.current_map.blocks[round(y)][round(x)].properties.solid
-
-            # n n n n n
-            # n n n n n
-            # n n s p n
-            # n n n n n
-            # n n n n n
-
-            if coll(x, y):
-                for h in hd:
-                    for v in vd:
-                        if not coll(x + h, y + v):
-                            self.x -= h  # 'amoamogus'
-                            self.y -= v
-                            break
-                    else:
-                        continue
-                    break
-
-        x = self.x / game.TILE_SIZE
-        y = self.y / game.TILE_SIZE
-        collision(math.floor(x), math.floor(y), 1, 1)
-        collision(math.ceil(x), math.floor(y), -1, 1)
-        collision(math.floor(x), math.ceil(y), 1, -1)
-        collision(math.ceil(x), math.ceil(y), -1, -1)
+            if coll(self.x / game.TILE_SIZE, math.ceil(self.y / game.TILE_SIZE)):
+                self.y = old_y
