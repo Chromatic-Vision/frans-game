@@ -1,6 +1,7 @@
 import os
 import pygame
 import game
+import script
 
 current_map = 0
 texture_cache = {}
@@ -8,7 +9,8 @@ properties = {}
 
 
 class BlockProperty:
-    def __init__(self, type_: int):
+    def __init__(self, type_: int, game_):
+        self.game = game_
         self.filename = os.path.join('assets', 'blocks', str(type_))
 
         with open(self.filename) as file:
@@ -25,14 +27,28 @@ class BlockProperty:
                 self.solid = rhs == 'true'
             elif lhs == 'flag':
                 self.flag = int(rhs)
+            elif lhs == 'script':
+                split = rhs.split(';;')
+                scripts = []
+                for s in split:
+                    if s[0] == '#' and s[-1] == '#':
+                        with open(os.path.join('assets', 'blocks', s[1:-1]), 'r') as file:
+                            scripts.append(file.read())
+                    else:
+                        scripts.append('s')
+                for s in scripts:
+                    script.run(s, game_)
             else:
-                raise ValueError(f'incorrect property {lhs} in file {self.filename}')
+                raise ValueError(f"incorrect property '{lhs}' in file '{self.filename}'")
 
 
-def load_properties():
+def load_properties(game_):
     for filename in os.listdir(os.path.join('assets', 'blocks')):
-        if not os.path.basename(filename).endswith('.bmp'):
-            properties[int(filename)] = BlockProperty(int(filename))
+        try:
+            int(filename)
+        except ValueError:
+            continue
+        properties[int(filename)] = BlockProperty(int(filename), game_)
 
 
 class Block:
@@ -51,6 +67,8 @@ class Block:
             self.texture = t
 
         self.properties = properties[self.type]
+
+        self.properties.game.handle_event(script.Event.PLACE, self)
 
     def get_texture(self) -> pygame.Surface:
         return self.texture

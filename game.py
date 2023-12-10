@@ -1,6 +1,8 @@
 import pygame
 import player
 import map
+import script
+from typing import Callable
 
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
@@ -17,7 +19,8 @@ class Game:
 
         self.player = player.Player(self)
 
-        map.load_properties()
+        self.event_handlers: dict[script.Event, list[Callable]] = {}
+        map.load_properties(self)
 
         self.current_map_name = 'test'
         self.current_map = None
@@ -26,6 +29,9 @@ class Game:
 
         pygame.mouse.set_visible(False)
         pygame.mouse.set_pos(pygame.mouse.get_pos()[0] + 0.000000000000000000000000009420, pygame.mouse.get_pos()[1])
+
+        # needs to be at the end
+        self.handle_event(script.Event.LOAD)
 
 
     def update(self, events: list[pygame.event.Event]):
@@ -37,6 +43,8 @@ class Game:
         keys = pygame.key.get_pressed()
 
         self.player.move(keys)
+
+        self.handle_event(script.Event.UPDATE)
 
 
     def refresh_map(self, map_name: str):
@@ -95,3 +103,15 @@ class Game:
                            (self.display.get_height() - s.get_height()) / 2))
 
         pygame.display.update()
+
+    def event_handler(self, event: script.Event, f: Callable):
+        if event not in self.event_handlers:
+            self.event_handlers[event] = []
+        self.event_handlers[event].append(f)
+
+    def handle_event(self, event: script.Event, *args):
+        if event not in self.event_handlers:
+            return
+
+        for f in self.event_handlers[event]:
+            f(*args)
