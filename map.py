@@ -1,6 +1,7 @@
 import os
 import pygame
 import game
+import script
 
 current_map = 0
 texture_cache = {}
@@ -25,14 +26,28 @@ class BlockProperty:
                 self.solid = rhs == 'true'
             elif lhs == 'flag':
                 self.flag = int(rhs)
+            elif lhs == 'script':
+                split = rhs.split(';;')
+                scripts = []
+                for s in split:
+                    if s[0] == '#' and s[-1] == '#':
+                        with open(os.path.join('assets', 'blocks', s[1:-1]), 'r') as file:
+                            scripts.append(file.read())
+                    else:
+                        scripts.append('s')
+                for s in scripts:
+                    script.run(s)
             else:
-                raise ValueError(f'incorrect property {lhs} in file {self.filename}')
+                raise ValueError(f"incorrect property '{lhs}' in file '{self.filename}'")
 
 
 def load_properties():
     for filename in os.listdir(os.path.join('assets', 'blocks')):
-        if not os.path.basename(filename).endswith('.bmp'):
-            properties[int(filename)] = BlockProperty(int(filename))
+        try:
+            int(filename)
+        except ValueError:
+            continue
+        properties[int(filename)] = BlockProperty(int(filename))
 
 
 class Block:
