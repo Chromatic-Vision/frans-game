@@ -42,7 +42,7 @@ class Player:
         old_x = self.x
         old_y = self.y
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.x -= self.speed
             self.direction = Direction.LEFT
 
@@ -56,7 +56,7 @@ class Player:
             if coll(math.floor(self.x / game.TILE_SIZE), self.y / game.TILE_SIZE): # ??
                 self.x = old_x
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT]or keys[pygame.K_d]:
             self.x += self.speed
             self.direction = Direction.RIGHT
 
@@ -66,7 +66,7 @@ class Player:
             if coll(math.ceil(self.x / game.TILE_SIZE), self.y / game.TILE_SIZE):
                 self.x = old_x
 
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP]or keys[pygame.K_w]:
             self.y -= self.speed
             self.direction = Direction.UP
 
@@ -79,7 +79,7 @@ class Player:
             if coll(self.x / game.TILE_SIZE, math.floor(self.y / game.TILE_SIZE)):
                 self.y = old_y
 
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN]or keys[pygame.K_s]:
             self.y += self.speed
             self.direction = Direction.DOWN
 
