@@ -17,4 +17,4 @@ for letter in raw:
             if c != [0, 0, 0]:
                 pygame.draw.rect(s, c, (x, y, 1, 1))
 
-    pygame.image.save(s, f'tiles/{letter}.bmp')
+    pygame.image.save(s, f'tiles/font/{ord(letter)}.bmp')

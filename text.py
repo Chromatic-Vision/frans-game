@@ -1,6 +1,5 @@
 import os
 import pygame
-import game
 
 
 TEXT_SIZE = 6
@@ -13,7 +12,7 @@ class TextRenderer:
 
         self.letters = {}
         for letter in letters:
-            self.letters[letter] = pygame.image.load(os.path.join('assets', 'tiles', letter + '.bmp'))
+            self.letters[letter] = pygame.image.load(os.path.join('assets', 'tiles', 'font', str(ord(letter)) + '.bmp'))
 
     def render(self, screen, rect: tuple[int, int, int, int], text: str):
         x = rect[0]
