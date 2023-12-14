@@ -2,6 +2,7 @@ import pygame
 import player
 import map
 import script
+import text
 from typing import Callable
 
 SCREEN_TILES = (12, 10)
@@ -29,6 +30,8 @@ class Game:
 
         pygame.mouse.set_visible(False)
         pygame.mouse.set_pos(pygame.mouse.get_pos()[0] + 0.000000000000000000000000009420, pygame.mouse.get_pos()[1])
+
+        self.text_renderer = text.TextRenderer()
 
         # needs to be at the end
         self.handle_event(script.Event.LOAD)
@@ -91,6 +94,8 @@ class Game:
                                 camera_y / TILE_SIZE)
 
         self.player.render(screen, player_x, player_y)
+
+        self.text_renderer.render(screen, (1, 1, 10, 10), 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\nHello, World!')
 
         scale = max(screen.get_width() / self.display.get_width(),
                     screen.get_height() / self.display.get_height())

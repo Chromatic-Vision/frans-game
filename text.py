@@ -1,0 +1,32 @@
+import os
+import pygame
+import game
+
+
+TEXT_SIZE = 6
+
+
+class TextRenderer:
+    def __init__(self):
+        letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,|!'
+        # TODO: "'
+
+        self.letters = {}
+        for letter in letters:
+            self.letters[letter] = pygame.image.load(os.path.join('assets', 'tiles', letter + '.bmp'))
+
+    def render(self, screen, rect: tuple[int, int, int, int], text: str):
+        x = rect[0]
+        y = rect[1]
+        for letter in text:
+            if letter not in '\n ':
+                screen.blit(self.letters[letter], (x * TEXT_SIZE, y * TEXT_SIZE))
+
+            if letter != '\n':
+                x += 1
+            if x > rect[0] + rect[2] or letter == '\n':
+                x = rect[0]
+                y += 1
+
+            if y > rect[2]:
+                raise ValueError('text too big')
