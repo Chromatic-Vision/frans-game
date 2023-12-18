@@ -8,6 +8,8 @@ from typing import Callable
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
 
+frame_test = 0
+
 
 class Game:
 
@@ -96,7 +98,16 @@ class Game:
 
         self.player.render(screen, player_x, player_y)
 
-        self.text_renderer.render(screen, (1, 1, 10, 10), "Hello,\nworld!!")
+        global frame_test
+
+        if frame_test >= self.text_renderer.letters.__len__():
+            frame_test = 0
+
+        cs = "".join(self.text_renderer.letters)
+
+        self.text_renderer.render(screen, (1, 1, 20, 20), cs[frame_test])
+
+        frame_test += 1
 
         scale = max(screen.get_width() / self.display.get_width(),
                     screen.get_height() / self.display.get_height())

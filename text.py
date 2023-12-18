@@ -2,12 +2,12 @@ import os
 import pygame
 
 
-TEXT_SIZE = 6
+TEXT_SIZE = 8
 
 
 class TextRenderer:
     def __init__(self):
-        letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.,|!'
+        letters = str(''' !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ÀàÂâÆæÇçÉéÈèÊêËëÎîÏïÔôŒœÙùÛûÜüŸÿ''')
         # TODO: "'
 
         self.letters = {}
