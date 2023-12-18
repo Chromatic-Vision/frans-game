@@ -52,6 +52,7 @@ class Game:
 
     def refresh_map(self, map_name: str):
         self.current_map = map.Map(map_name)
+        self.current_map_name = map_name
 
     def draw(self):
 
@@ -95,7 +96,7 @@ class Game:
 
         self.player.render(screen, player_x, player_y)
 
-        self.text_renderer.render(screen, (1, 1, 10, 10), 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\nHello, World!')
+        self.text_renderer.render(screen, (1, 1, 10, 10), "Hello,\nworld!!")
 
         scale = max(screen.get_width() / self.display.get_width(),
                     screen.get_height() / self.display.get_height())
@@ -108,6 +109,7 @@ class Game:
                            (self.display.get_height() - s.get_height()) / 2))
 
         pygame.display.update()
+        self.handle_event(script.Event.OVERLAY)
 
     def event_handler(self, event: script.Event, f: Callable):
         if event not in self.event_handlers:

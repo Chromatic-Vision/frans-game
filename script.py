@@ -8,6 +8,7 @@ class Event(enum.IntEnum):
     LOAD = enum.auto()
     # PRESS
     PLACE = enum.auto()
+    OVERLAY = enum.auto()
 
 
 def event(game, type_: Event, f):

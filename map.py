@@ -11,7 +11,7 @@ properties = {}
 class BlockProperty:
     def __init__(self, type_: int, game_):
         self.game = game_
-        self.filename = os.path.join('assets', 'blocks', str(type_))
+        self.filename = os.path.join('assets', 'properties', 'blocks', str(type_))
 
         with open(self.filename) as file:
             self.raw = file.read()
@@ -32,7 +32,7 @@ class BlockProperty:
                 scripts = []
                 for s in split:
                     if s[0] == '#' and s[-1] == '#':
-                        with open(os.path.join('assets', 'blocks', s[1:-1]), 'r') as file:
+                        with open(os.path.join('assets', 'properties', 'blocks', s[1:-1]), 'r') as file:
                             scripts.append(file.read())
                     else:
                         scripts.append('s')
@@ -43,7 +43,7 @@ class BlockProperty:
 
 
 def load_properties(game_):
-    for filename in os.listdir(os.path.join('assets', 'blocks')):
+    for filename in os.listdir(os.path.join('assets', 'properties', 'blocks')):
         try:
             int(filename)
         except ValueError:
@@ -62,7 +62,7 @@ class Block:
         if self.type in texture_cache:
             self.texture = texture_cache[self.type]
         else:
-            t = pygame.image.load(os.path.join('assets', 'blocks', str(self.type) + '.bmp'))
+            t = pygame.image.load(os.path.join('assets', 'tiles', 'blocks', str(self.type) + '.bmp'))
             texture_cache[self.type] = t
             self.texture = t
 
@@ -100,13 +100,11 @@ class Map:
         self.height = len(self.raw_blocks)
 
     def render(self, screen: pygame.Surface, camera_x: int, camera_y: int):
-        for x in range(game.SCREEN_TILES[0]):
-            for y in range(game.SCREEN_TILES[1]):
-                # TODO: check if camera is in map, else raise an exception because Game should handle that?
-                # i = int(y + camera_y) * self.width + int(x + camera_x)
-                s = self.blocks[int(y + camera_y)][int(x + camera_x)].get_texture()
-                screen.blit(s, (round((x - camera_x % 1) * game.TILE_SIZE), round((y - camera_y % 1) * game.TILE_SIZE)))
-                # self.blocks[i].render(screen)
-
-    # blocks = [1, 1, 1, 1, 1...]
-    # splitted_blocks = [1, 1], [1, 1,], [...]
+        for x in range(game.SCREEN_TILES[0] + 1):
+            for y in range(game.SCREEN_TILES[1] + 1):
+                try:
+                    # TODO: check if camera is in map, else raise an exception because Game should handle that?
+                    s = self.blocks[int(y + camera_y)][int(x + camera_x)].get_texture()
+                    screen.blit(s, (round((x - camera_x % 1) * game.TILE_SIZE), round((y - camera_y % 1) * game.TILE_SIZE)))
+                except IndexError:
+                    pass
