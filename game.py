@@ -25,7 +25,7 @@ class Game:
         self.event_handlers: dict[script.Event, list[Callable]] = {}
         map.load_properties(self)
 
-        self.current_map_name = 'test'
+        self.current_map_name = 'debug'
         self.current_map = None
 
         self.refresh_map(self.current_map_name)

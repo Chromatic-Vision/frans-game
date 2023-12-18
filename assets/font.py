@@ -7,8 +7,9 @@ with open('mc_ascii3.json', 'r') as file:
     raw = json.load(file)
 
 for letter in raw:
-    if letter == '/':
-        continue
+
+    # if letter == '/':
+    #     continue
 
     s = pygame.Surface((FONT_SIZE, FONT_SIZE), pygame.SRCALPHA)
     s.set_alpha(100)
