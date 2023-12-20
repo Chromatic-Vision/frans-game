@@ -23,13 +23,13 @@ class Game:
         self.event_handlers: dict[script.Event, list[Callable]] = {}
         map.load_properties(self)
 
-        self.current_map_name = 'debug'
+        self.current_map_name = 'title'
         self.current_map = None
 
         self.refresh_map(self.current_map_name)
 
         pygame.mouse.set_visible(False)
-        pygame.mouse.set_pos(pygame.mouse.get_pos()[0] + 0.000000000000000000000000009420, pygame.mouse.get_pos()[1])
+        pygame.mouse.set_pos(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
 
         self.text_renderer = text.TextRenderer()
 
