@@ -8,8 +8,6 @@ from typing import Callable
 SCREEN_TILES = (12, 10)
 TILE_SIZE = 10
 
-frame_test = 0
-
 
 class Game:
 
@@ -43,7 +41,7 @@ class Game:
 
         for event in events:
             if event.type == pygame.KEYDOWN:
-                pass
+                self.handle_event(script.Event.KEYDOWN, event)
 
         keys = pygame.key.get_pressed()
 
@@ -53,7 +51,7 @@ class Game:
 
 
     def refresh_map(self, map_name: str):
-        self.current_map = map.Map(map_name)
+        self.current_map = map.Map(map_name, self)
         self.current_map_name = map_name
 
     def draw(self):
@@ -98,16 +96,9 @@ class Game:
 
         self.player.render(screen, player_x, player_y)
 
-        global frame_test
+        self.text_renderer.render(screen, (1, 1, 10, 10), "Hello,\nworld!!")
 
-        if frame_test >= self.text_renderer.letters.__len__():
-            frame_test = 0
-
-        cs = "".join(self.text_renderer.letters)
-
-        self.text_renderer.render(screen, (1, 1, 20, 20), cs[frame_test])
-
-        frame_test += 1
+        self.handle_event(script.Event.OVERLAY, screen)
 
         scale = max(screen.get_width() / self.display.get_width(),
                     screen.get_height() / self.display.get_height())
@@ -120,7 +111,6 @@ class Game:
                            (self.display.get_height() - s.get_height()) / 2))
 
         pygame.display.update()
-        self.handle_event(script.Event.OVERLAY)
 
     def event_handler(self, event: script.Event, f: Callable):
         if event not in self.event_handlers:

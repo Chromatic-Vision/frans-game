@@ -9,6 +9,7 @@ class Event(enum.IntEnum):
     # PRESS
     PLACE = enum.auto()
     OVERLAY = enum.auto()
+    KEYDOWN = enum.auto()
 
 
 def event(game, type_: Event, f):

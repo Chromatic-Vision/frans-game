@@ -23,9 +23,9 @@ class TextRenderer:
 
             if letter != '\n':
                 x += 1
-            if x > rect[0] + rect[2] or letter == '\n':
+            if x >= rect[0] + rect[2] or letter == '\n':
                 x = rect[0]
                 y += 1
 
-            if y > rect[2]:
+            if y > rect[1] + rect[2]:
                 raise ValueError('text too big')

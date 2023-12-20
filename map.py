@@ -76,14 +76,19 @@ class Block:
 
 
 class Map:
-    def __init__(self, name):
+    def __init__(self, name, game_):
         self.name = name
         self.filename = os.path.join('assets', 'maps', name + '.map')
 
         with open(self.filename, 'r', encoding='utf-8') as file:
             raw = file.read()
+        lines = raw.split('\n')
 
-        self.raw_blocks = [line.split('|') for line in raw.split('\n')]
+        while lines[-1].startswith('script: '):
+            with open(os.path.join('assets', 'maps', lines.pop(-1).removeprefix('script: '))) as file:
+                script.run(file.read(), game_)
+
+        self.raw_blocks = [line.split('|') for line in lines]
 
         for line in self.raw_blocks:
             assert len(line) == len(self.raw_blocks[0])
