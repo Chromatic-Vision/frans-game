@@ -85,7 +85,7 @@ class Map:
         lines = raw.split('\n')
 
         while lines[-1].startswith('script: '):
-            with open(os.path.join('assets', 'maps', lines.pop(-1).removeprefix('script: '))) as file:
+            with open(os.path.join('assets', 'maps', lines.pop(-1).removeprefix('script: ')), encoding='utf-8') as file:
                 script.run(file.read(), game_)
 
         self.raw_blocks = [line.split('|') for line in lines]

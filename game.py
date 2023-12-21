@@ -13,6 +13,8 @@ class Game:
 
     def __init__(self):
 
+        self.run = True
+
         _ = pygame.display.set_mode((0, 0))  # fix bug on windows not going fullscreen
 
         self.display = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
@@ -37,7 +39,7 @@ class Game:
         self.handle_event(script.Event.LOAD)
 
 
-    def update(self, events: list[pygame.event.Event]):
+    def update(self, events: list[pygame.event.Event]) -> bool:
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -46,8 +48,9 @@ class Game:
         keys = pygame.key.get_pressed()
 
         self.player.move(keys)
-
         self.handle_event(script.Event.UPDATE)
+
+        return self.run
 
 
     def refresh_map(self, map_name: str):

@@ -36,7 +36,7 @@ def place(block):
             texture_folder + f"{overlay_type}.bmp",
             1,
             forex=random.randint(0, 1) if overlay_type == 11 else random.randint(0, 7),
-            forey=random.randint(0, 5) if overlay_type == 11 else random.randint(0, 7))
+            forey=random.randint(0, 5) if overlay_type == 11 else random.randint(0, 6))
 
         block.texture = blended_surface
 

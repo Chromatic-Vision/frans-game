@@ -20,7 +20,9 @@ while run:
         elif event.type == pygame.QUIT:
             run = False
 
-    game.update(events)
+    if not game.update(events):
+        run = False
+
     game.draw()
 
 pygame.quit()
