@@ -10,6 +10,7 @@ class Event(enum.IntEnum):
     PLACE = enum.auto()
     OVERLAY = enum.auto()
     KEYDOWN = enum.auto()
+    LEVEL = enum.auto()
 
 
 def event(game, type_: Event, f):
@@ -19,6 +20,15 @@ def event(game, type_: Event, f):
 
 
 def run(s: str, game_):
+
+    # s = s.replace("from main import game\n", "")
+
+    if s.startswith('from main import game'):
+        s = s.removeprefix('from main import game')
+
+    if s.startswith('from script import Event'):
+        s = s.removeprefix('from script import Event')
+
     exec(s,
          {'event': functools.partial(event, game_),
           'Event': Event,

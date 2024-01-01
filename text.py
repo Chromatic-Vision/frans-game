@@ -15,17 +15,14 @@ class TextRenderer:
             self.letters[letter] = pygame.image.load(os.path.join('assets', 'tiles', 'font', str(ord(letter)) + '.bmp'))
 
     def render(self, screen, rect: tuple[int, int, int, int], text: str):
-        x = rect[0]
-        y = rect[1]
+        x = rect[0] * TEXT_SIZE
+        y = rect[1] * TEXT_SIZE
         for letter in text:
             if letter not in '\n ':
-                screen.blit(self.letters[letter], (x * TEXT_SIZE, y * TEXT_SIZE))
+                screen.blit(self.letters[letter], (x, y))
 
             if letter != '\n':
-                x += 1
-            if x >= rect[0] + rect[2] or letter == '\n':
-                x = rect[0]
-                y += 1
-
-            if y > rect[1] + rect[2]:
-                raise ValueError('text too big')
+                x += self.letters[letter].get_width()
+            if x >= rect[0] * TEXT_SIZE + rect[2] * TEXT_SIZE or letter == '\n':
+                x = rect[0] * TEXT_SIZE
+                y += TEXT_SIZE

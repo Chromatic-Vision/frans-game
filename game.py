@@ -13,6 +13,7 @@ class Game:
 
     def __init__(self):
 
+        self.next_event_id = 0
         self.run = True
 
         _ = pygame.display.set_mode((0, 0))  # fix bug on windows not going fullscreen
@@ -22,7 +23,7 @@ class Game:
 
         self.player = player.Player(self)
 
-        self.event_handlers: dict[script.Event, list[Callable]] = {}
+        self.event_handlers: dict[script.Event, list[tuple[int, Callable]]] = {}
         map.load_properties(self)
 
         self.current_map_name = 'title'
@@ -56,6 +57,7 @@ class Game:
     def refresh_map(self, map_name: str):
         self.current_map = map.Map(map_name, self)
         self.current_map_name = map_name
+        self.handle_event(script.Event.LEVEL, map_name)
 
     def draw(self):
 
@@ -115,14 +117,21 @@ class Game:
 
         pygame.display.update()
 
-    def event_handler(self, event: script.Event, f: Callable):
+    def event_handler(self, event: script.Event, f: Callable) -> int:
         if event not in self.event_handlers:
             self.event_handlers[event] = []
-        self.event_handlers[event].append(f)
+        self.event_handlers[event].append((self.next_event_id, f))
+
+        self.next_event_id += 1
+        return self.next_event_id - 1
+
+    def event_un_handler(self, event: script.Event, f: Callable, id: int):
+        if (id, f) in self.event_handlers[event]:
+            self.event_handlers[event].remove((id, f))
 
     def handle_event(self, event: script.Event, *args):
         if event not in self.event_handlers:
             return
 
         for f in self.event_handlers[event]:
-            f(*args)
+            f[1](*args)
