@@ -10,13 +10,13 @@ cursor_y = 0
 
 
 def overlay(screen: pygame.Surface):
-
     if not game.current_map_name == "title":
+        game.unregister_event(overlay_id)
         return
 
     screen.blit(s, (0, 0))
 
-    x = 5 * 10
+    x = 5 * TILE_SIZE
     y = 9
     size = 4
     space = 2
@@ -39,6 +39,7 @@ def overlay(screen: pygame.Surface):
 def key_pressed(event):
 
     if not game.current_map_name == "title":
+        game.unregister_event(key_pressed_id)
         return
 
     global cursor_y
@@ -58,5 +59,5 @@ def key_pressed(event):
             game.run = False
 
 
-event(Event.OVERLAY, overlay)
-event(Event.KEYDOWN, key_pressed)
+overlay_id = game.register_event(Event.OVERLAY, overlay)
+key_pressed_id = game.register_event(Event.KEYDOWN, key_pressed)

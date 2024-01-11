@@ -29,6 +29,8 @@ class Game:
         self.current_map_name = 'title'
         self.current_map = None
 
+        self.allow_player_input = True
+
         self.refresh_map(self.current_map_name)
 
         pygame.mouse.set_visible(False)
@@ -55,8 +57,8 @@ class Game:
 
 
     def refresh_map(self, map_name: str):
-        self.current_map = map.Map(map_name, self)
         self.current_map_name = map_name
+        self.current_map = map.Map(map_name, self)
         self.handle_event(script.Event.LEVEL, map_name)
 
     def draw(self):
@@ -117,7 +119,7 @@ class Game:
 
         pygame.display.update()
 
-    def event_handler(self, event: script.Event, f: Callable) -> int:
+    def register_event(self, event: script.Event, f: Callable) -> int:
         if event not in self.event_handlers:
             self.event_handlers[event] = []
         self.event_handlers[event].append((self.next_event_id, f))
@@ -125,9 +127,18 @@ class Game:
         self.next_event_id += 1
         return self.next_event_id - 1
 
-    def event_un_handler(self, event: script.Event, f: Callable, id: int):
-        if (id, f) in self.event_handlers[event]:
-            self.event_handlers[event].remove((id, f))
+    def unregister_event(self, id: int):
+        if id is None:
+            raise ValueError('id is None')
+
+        for event in self.event_handlers:
+            for e in self.event_handlers[event]:
+
+                if e[0] == id:
+                    self.event_handlers[event].remove((id, e[1]))
+                    return
+
+        raise ValueError(f"invalid id {id}")
 
     def handle_event(self, event: script.Event, *args):
         if event not in self.event_handlers:
@@ -135,3 +146,6 @@ class Game:
 
         for f in self.event_handlers[event]:
             f[1](*args)
+
+    def run_cutscene(self, cut_scene: str):
+        pass

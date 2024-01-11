@@ -13,12 +13,6 @@ class Event(enum.IntEnum):
     LEVEL = enum.auto()
 
 
-def event(game, type_: Event, f):
-    game.event_handler(type_, f)
-
-    # raise NotImplementedError(f'setting events ({repr(type_)}, {f})')
-
-
 def run(s: str, game_):
 
     # s = s.replace("from main import game\n", "")
@@ -30,8 +24,7 @@ def run(s: str, game_):
         s = s.removeprefix('from script import Event')
 
     exec(s,
-         {'event': functools.partial(event, game_),
-          'Event': Event,
+         {'Event': Event,
           'game': game_,
           'TILE_SIZE': game.TILE_SIZE
           })

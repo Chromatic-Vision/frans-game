@@ -1,3 +1,6 @@
+from main import game
+from script import Event
+
 import random
 import pygame
 from pygame.locals import SRCALPHA
@@ -41,4 +44,4 @@ def place(block):
         block.texture = blended_surface
 
 
-event(Event.PLACE, place)
+game.register_event(Event.PLACE, place)
