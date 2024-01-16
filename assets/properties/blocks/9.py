@@ -1,6 +1,7 @@
 from main import game
 from script import Event
 
+from game import TILE_SIZE
 import random
 import pygame
 from pygame.locals import SRCALPHA
@@ -32,7 +33,9 @@ def place(block):
     if block.type == 10:
         overlay_type = 11 if random.random() < 0.13 else 10
 
-        block.texture = blended_surface
+        s = pygame.Surface(block.texture.get_size(), flags=pygame.SRCALPHA)
 
+        s.blit(block.texture, (random.randint(1, TILE_SIZE - 4), random.randint(1, TILE_SIZE - 4)))
+        block.texture = s
 
 game.register_event(Event.PLACE, place)
