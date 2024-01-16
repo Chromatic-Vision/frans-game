@@ -91,14 +91,23 @@ class Map:
         self.raw_blocks = [line.split('|') for line in lines]
 
         for line in self.raw_blocks:
-            assert len(line) == len(self.raw_blocks[0])
+            if len(line) != len(self.raw_blocks[0]):
+                raise SyntaxError
 
-        self.blocks = []
+        self.blocks: list[list[list[Block]]] = []
         for y, line in enumerate(self.raw_blocks):
             l = []
-            for x, b in enumerate(line):
-                type_, _, flags = b.partition(':')
-                l.append(Block(int(type_), flags, x, y))
+            for x, tile in enumerate(line):
+                blocks = []
+                for b in tile.split(';'):
+                    type_, _, flags = b.partition(':')
+
+                    print("type", "")
+
+                    if len(type_) == 0:
+                        raise SyntaxError(f"'{type_}'")
+                    blocks.append(Block(int(type_), flags, x, y))
+                l.append(blocks)
             self.blocks.append(l)
 
         self.width = len(self.raw_blocks[0])
@@ -109,7 +118,10 @@ class Map:
             for y in range(game.SCREEN_TILES[1] + 1):
                 try:
                     # TODO: check if camera is in map, else raise an exception because Game should handle that?
-                    s = self.blocks[int(y + camera_y)][int(x + camera_x)].get_texture()
-                    screen.blit(s, (round((x - camera_x % 1) * game.TILE_SIZE), round((y - camera_y % 1) * game.TILE_SIZE)))
+                    tile = self.blocks[int(y + camera_y)][int(x + camera_x)]
                 except IndexError:
-                    pass
+                    continue
+                for block in tile:
+                    s = block.get_texture()
+
+                    screen.blit(s, (round((x - camera_x % 1) * game.TILE_SIZE), round((y - camera_y % 1) * game.TILE_SIZE)))

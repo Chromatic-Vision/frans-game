@@ -23,6 +23,9 @@ def run(s: str, game_):
     if s.startswith('from script import Event'):
         s = s.removeprefix('from script import Event')
 
+    if s.startswith('from game import TILE_SIZE'):
+        s = s.removeprefix('from game import TILE_SIZE')
+
     exec(s,
          {'Event': Event,
           'game': game_,
