@@ -17,14 +17,16 @@ def run(s: str, game_):
 
     # s = s.replace("from main import game\n", "")
 
-    if s.startswith('from main import game'):
-        s = s.removeprefix('from main import game')
+    blacklist = [
+        'from main import game',
+        'from script import Event',
+        'from game import TILE_SIZE',
+        'import os.path'
+    ]
 
-    if s.startswith('from script import Event'):
-        s = s.removeprefix('from script import Event')
-
-    if s.startswith('from game import TILE_SIZE'):
-        s = s.removeprefix('from game import TILE_SIZE')
+    for a in blacklist:
+        if s.startswith(a):
+            s = s.removeprefix(a)
 
     exec(s,
          {'Event': Event,

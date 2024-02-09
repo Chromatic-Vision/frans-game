@@ -53,11 +53,12 @@ def load_properties(game_):
 
 class Block:
 
-    def __init__(self, type_: int, flags: str, x, y):
+    def __init__(self, type_: int, flags: str, x, y, props: dict):
         self.type = type_
         self.flags = flags
         self.x = x
         self.y = y
+        self.props = props
 
         if self.type in texture_cache:
             self.texture = texture_cache[self.type]
@@ -102,11 +103,13 @@ class Map:
                 for b in tile.split(';'):
                     type_, _, flags = b.partition(':')
 
-                    print("type", "")
+                    props = {}
+                    if flags:
+                        props = {lhs: rhs for p in flags.split(' ') for lhs, _, rhs in [p.partition('=')]}
 
                     if len(type_) == 0:
                         raise SyntaxError(f"'{type_}'")
-                    blocks.append(Block(int(type_), flags, x, y))
+                    blocks.append(Block(int(type_), flags, x, y, props))
                 l.append(blocks)
             self.blocks.append(l)
 

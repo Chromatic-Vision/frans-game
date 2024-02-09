@@ -2,6 +2,7 @@ from main import game
 from script import Event
 import pygame
 import os.path
+from game import TILE_SIZE
 
 
 s = pygame.image.load(os.path.join('assets', 'tiles', 'misc', 'title.bmp'))

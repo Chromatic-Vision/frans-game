@@ -24,7 +24,7 @@ class Player:
 
         self.textures = []
         for d in Direction:
-            self.textures.append(pygame.image.load(os.path.join('assets', "player", str(d.name).lower() + '.bmp')))
+            self.textures.append(pygame.image.load(os.path.join('assets', 'tiles', 'player', str(d.name).lower() + '.bmp')))
 
     def render(self, screen, x, y):
         screen.blit(self.textures[self.direction.value], (x, y))

@@ -55,7 +55,6 @@ class Game:
 
         return self.run
 
-
     def refresh_map(self, map_name: str):
         self.current_map_name = map_name
         self.current_map = map.Map(map_name, self)

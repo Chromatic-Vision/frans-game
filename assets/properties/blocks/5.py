@@ -1,12 +1,15 @@
 from main import game
+from game import TILE_SIZE
 from script import Event
 
 def smash():return None.__class__.__flags__
 
 
 def place(block):
-
     if block.type == 5:
+        if 'to' not in block.props:
+            raise ValueError(f'block 5 requires "to" prop in map "{game.current_map_name}"')
+
         block_level = game.current_map_name
 
         def update():
@@ -16,12 +19,7 @@ def place(block):
                 game.player.x = 2 * TILE_SIZE
                 game.player.y = 4 * TILE_SIZE
 
-                if game.current_map_name == "test":
-                    game.refresh_map('test2')
-                elif game.current_map_name == "test2":
-                        game.refresh_map('debug')
-                elif game.current_map_name == "debug":
-                        game.refresh_map('test')
+                game.refresh_map(block.props['to'])
 
         update_id = game.register_event(Event.UPDATE, update)
 

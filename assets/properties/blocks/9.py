@@ -30,8 +30,8 @@ texture_folder = "assets/tiles/blocks/"
 
 
 def place(block):
+
     if block.type == 10:
-        overlay_type = 11 if random.random() < 0.13 else 10
 
         s = pygame.Surface(block.texture.get_size(), flags=pygame.SRCALPHA)
 
