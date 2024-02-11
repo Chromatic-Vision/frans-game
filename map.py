@@ -35,7 +35,7 @@ class BlockProperty:
                         with open(os.path.join('assets', 'properties', 'blocks', s[1:-1]), 'r') as file:
                             scripts.append(file.read())
                     else:
-                        scripts.append('s')
+                        scripts.append(s)
                 for s in scripts:
                     script.run(s, game_)
             else:
@@ -105,7 +105,7 @@ class Map:
 
                     props = {}
                     if flags:
-                        props = {lhs: rhs for p in flags.split(' ') for lhs, _, rhs in [p.partition('=')]}
+                        props = {lhs: rhs for p in flags.split(':') for lhs, _, rhs in [p.partition('=')]}
 
                     if len(type_) == 0:
                         raise SyntaxError(f"'{type_}'")

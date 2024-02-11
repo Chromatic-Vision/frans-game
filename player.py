@@ -81,7 +81,7 @@ class Player:
 
         if keys[pygame.K_UP] or keys[pygame.K_w]:
             self.y -= self.speed
-            self.direction = Direction.UP
+            # self.direction = Direction.UP
 
             if self.y < 0:
                 self.y = 0
@@ -92,9 +92,9 @@ class Player:
             if coll(self.x / game.TILE_SIZE, math.floor(self.y / game.TILE_SIZE), True):
                 self.y = old_y
 
-        if keys[pygame.K_DOWN]or keys[pygame.K_s]:
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.y += self.speed
-            self.direction = Direction.DOWN
+            # self.direction = Direction.DOWN
 
             if self.y < 0:
                 self.y = 0

@@ -53,7 +53,8 @@ def key_pressed(event):
     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
 
         if cursor_y == 0:
-            game.refresh_map("test")
+            game.refresh_map("house")
+            game.player.y += TILE_SIZE * 3
         elif cursor_y == 1:
             return
         elif cursor_y == 2:

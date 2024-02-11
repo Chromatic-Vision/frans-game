@@ -20,13 +20,13 @@ def run(s: str, game_):
     blacklist = [
         'from main import game',
         'from script import Event',
-        'from game import TILE_SIZE',
-        'import os.path'
+        'from game import TILE_SIZE'
     ]
 
-    for a in blacklist:
-        if s.startswith(a):
-            s = s.removeprefix(a)
+    for _ in blacklist:
+        for a in blacklist:
+            if s.startswith(a):
+                s = s.removeprefix(a)
 
     exec(s,
          {'Event': Event,
