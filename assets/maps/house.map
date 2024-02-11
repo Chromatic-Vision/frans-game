@@ -7,5 +7,5 @@
 0|2|2|2|2|2|2|2|2|14:message=Je suis ta grand-mère,#J'utilise des fraises pour une tarte.#Tu dois suivre les enseignes qui sont dehors.:width=5:oy=-1;2;15:angry=false:left=true|2|0
 0|2|2|2|2|2|2|2|2|2|2|0
 0|2|2|2|2|2|2|2|2|2|2|0
-0|0|0|0|0|5:to=debug|5:to=debug|0|0|0|0|0
+0|0|0|0|0|5:to=road|5:to=road|0|0|0|0|0
 script: house.py
