@@ -51,16 +51,11 @@ def place(block) -> None:
 
     def level(map_name: str) -> None:
         if map_name != block_map:
-            print('level changed', block_map, map_name, overlay_id, level_id, keypress_id)
-            print(game.event_handlers)
             game.unregister_event(overlay_id)
             game.unregister_event(level_id)
             game.unregister_event(keypress_id)
-            print(game.event_handlers)
 
     level_id = game.register_event(Event.LEVEL, level)
-    print('block', level_id)
-    # print(game.event_handlers[Event.LEVEL])
 
 
 place_id = game.register_event(Event.PLACE, place)

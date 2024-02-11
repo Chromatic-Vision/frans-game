@@ -26,7 +26,6 @@ def place(block):
         def level(map_name):
 
             if map_name != block_level:
-                print(block.x, block.y, block_level, map_name)
                 game.unregister_event(update_id)
                 game.unregister_event(level_id)
 

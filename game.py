@@ -144,8 +144,7 @@ class Game:
         if event not in self.event_handlers:
             return
 
-        # print(event, self.event_handlers[event])
-        for f in self.event_handlers[event]:
+        for f in self.event_handlers[event].copy():
             f[1](*args)
 
     def run_cutscene(self, cut_scene: str):
