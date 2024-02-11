@@ -20,6 +20,7 @@ def overlay(screen: pygame.Surface):
     x = 5 * TILE_SIZE
     y = 9
     size = 4
+    text_size = 8
     space = 2
     pygame.draw.polygon(screen, (255, 255, 255),
                         [
@@ -29,10 +30,10 @@ def overlay(screen: pygame.Surface):
                             (x + size // 2, (cursor_y * space + 1) * size + y),
                         ])
 
-    game.text_renderer.render(screen, (7, 1, 40, 40), "Commencer")
-    game.text_renderer.render(screen, (7, 2, 40, 40), "Continuer")
-    game.text_renderer.render(screen, (7, 3, 40, 40), "Quitter")
-    game.text_renderer.render(screen, (7, 4, 40, 40), "ÀàÂâÆæÇç\nÉéÈèÊêËë\nÎîÏïÔôŒœ\nÙùÛûÜüŸÿ")
+    game.text_renderer.render(screen, (7 * text_size, 1 * text_size, 1000, 40), "Commencer")
+    game.text_renderer.render(screen, (7 * text_size, 2 * text_size, 1000, 40), "Continuer")
+    game.text_renderer.render(screen, (7 * text_size, 3 * text_size, 1000, 40), "Quitter")
+    # game.text_renderer.render(screen, (7 * text_size, 4 * text_size, 1000, 40), "ÀàÂâÆæÇç\nÉéÈèÊêËë\nÎîÏïÔôŒœ\nÙùÛûÜüŸÿ")
 
     # pygame.draw.rect(screen, (255, 255, 255), (0, cursor_y * 10, 10, 10))
 

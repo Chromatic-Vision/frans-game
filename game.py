@@ -102,7 +102,7 @@ class Game:
 
         self.player.render(screen, player_x, player_y)
 
-        self.text_renderer.render(screen, (1, 1, 10, 10), "Hello,\nworld!!")
+        # self.text_renderer.render(screen, (1, 1, 10, 10), "Hello,\nworld!!")
 
         self.handle_event(script.Event.OVERLAY, screen)
 
@@ -123,8 +123,9 @@ class Game:
             self.event_handlers[event] = []
         self.event_handlers[event].append((self.next_event_id, f))
 
-        self.next_event_id += 1
-        return self.next_event_id - 1
+        old_id = self.next_event_id
+        self.next_event_id += 2
+        return old_id
 
     def unregister_event(self, id: int):
         if id is None:
@@ -143,6 +144,7 @@ class Game:
         if event not in self.event_handlers:
             return
 
+        # print(event, self.event_handlers[event])
         for f in self.event_handlers[event]:
             f[1](*args)
 
