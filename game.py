@@ -18,6 +18,8 @@ class Game:
 
         _ = pygame.display.set_mode((0, 0))  # fix bug on windows not going fullscreen
 
+        pygame.display.set_icon(pygame.image.load("icon.ico"))
+
         self.display = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
         self.screen = pygame.Surface((SCREEN_TILES[0] * TILE_SIZE, SCREEN_TILES[1] * TILE_SIZE))
 
@@ -26,7 +28,7 @@ class Game:
         self.event_handlers: dict[script.Event, list[tuple[int, Callable]]] = {}
         map.load_properties(self)
 
-        self.current_map_name = 'hole'
+        self.current_map_name = 'title'
         self.current_map = None
 
         self.allow_player_input = True

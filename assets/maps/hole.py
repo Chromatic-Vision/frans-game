@@ -9,13 +9,13 @@ should_run = False
 def update() -> None:
     global should_run
 
-    if game.player.x > 10 * TILE_SIZE:
+    if game.player.x > 11 * TILE_SIZE:
         should_run = True
         game.player.move_allowed = False
         game.player.direction = Direction.LEFT
 
     if should_run:
-        if game.player.x < 5:
+        if game.player.x < 5 * TILE_SIZE:
             should_run = False
             game.player.move_allowed = True
 

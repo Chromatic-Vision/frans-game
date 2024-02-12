@@ -7,7 +7,6 @@ import os.path
 
 map_name = None
 
-
 def level(name: str) -> None:
     global map_name, update_id
 
@@ -23,12 +22,12 @@ def level(name: str) -> None:
 
 
 def update() -> None:
+
     if map_name != 'house':
         return
 
     # game.player.x = 0
     # game.player.y = 0
-
 
 update_id = game.register_event(Event.UPDATE, update)
 level_id = game.register_event(Event.LEVEL, level)
