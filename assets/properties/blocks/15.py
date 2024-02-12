@@ -6,7 +6,7 @@ import pygame
 import os.path
 
 textures = []
-for name in ['right.bmp', 'left.bmp', 'left-angry.bmp', 'right-angry.bmp']:
+for name in ['right.bmp', 'left.bmp', 'right-angry.bmp', 'left-angry.bmp']:
     path = os.path.join("assets", "tiles", "player", name)
     textures.append(pygame.image.load(path))
 # angry = pygame.image.load(os.path.join("assets", "tiles", "player", "left.bmp"))

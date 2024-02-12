@@ -26,7 +26,7 @@ class Game:
         self.event_handlers: dict[script.Event, list[tuple[int, Callable]]] = {}
         map.load_properties(self)
 
-        self.current_map_name = 'title'
+        self.current_map_name = 'hole'
         self.current_map = None
 
         self.allow_player_input = True
@@ -58,6 +58,8 @@ class Game:
     def refresh_map(self, map_name: str):
         self.current_map_name = map_name
         self.current_map = map.Map(map_name, self)
+        self.player.x = 3 * TILE_SIZE
+        self.player.y = 3 * TILE_SIZE
         self.handle_event(script.Event.LEVEL, map_name)
 
     def draw(self):

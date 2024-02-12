@@ -26,10 +26,14 @@ class Player:
         for d in Direction:
             self.textures.append(pygame.image.load(os.path.join('assets', 'tiles', 'player', str(d.name).lower() + '.bmp')))
 
+        self.move_allowed = True
+
     def render(self, screen, x, y):
         screen.blit(self.textures[self.direction.value], (x, y))
     
     def move(self, keys):
+        if not self.move_allowed:
+            return
 
         def coll(x: float, y: float, vertical: bool) -> bool:
             def _coll(x: int, y: int) -> bool:
@@ -38,7 +42,10 @@ class Player:
                 if type(y) is not int:
                     raise ValueError(f"{type(y), y}")
 
-                tile = self.game.current_map.blocks[y][x]
+                try:
+                    tile = self.game.current_map.blocks[y][x]
+                except IndexError:
+                    return False
                 assert tile, tile
                 for block in tile:
                     if block.properties.solid:

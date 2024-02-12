@@ -14,8 +14,8 @@ def level(name: str) -> None:
     if map_name != 'house' and name == 'house':
         update_id = game.register_event(Event.UPDATE, update)
 
-        # game.player.x = 2 * TILE_SIZE
-        # game.player.y = 1 * TILE_SIZE
+        game.player.x = 2 * TILE_SIZE
+        game.player.y = 2 * TILE_SIZE
     elif map_name == 'house' and name != 'house':
         game.unregister_event(update_id)
 

@@ -20,6 +20,7 @@ for letter in raw:
         for y in range(FONT_SIZE):
             c = raw[letter][y][x]
             if c != [0, 0, 0]:
+                c = [150, 150, 150]
                 pygame.draw.rect(s, c, (x, y, 1, 1))
                 if x > width:
                     width = x
