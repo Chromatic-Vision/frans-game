@@ -28,7 +28,7 @@ class Game:
         self.event_handlers: dict[script.Event, list[tuple[int, Callable]]] = {}
         map.load_properties(self)
 
-        self.current_map_name = 'title'
+        self.current_map_name = 'hole'
         self.current_map = None
 
         self.allow_player_input = True

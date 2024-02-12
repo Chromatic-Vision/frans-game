@@ -33,6 +33,8 @@ def update() -> None:
 update_id = game.register_event(Event.UPDATE, update)
 level_id = game.register_event(Event.LEVEL, level)
 
+grandma_image = pygame.image.load(os.path.join('assets', 'tiles', 'player', 'left-angry.bmp'))
+
 
 def place(block) -> None:
     if block.type != 14:
@@ -45,6 +47,8 @@ def place(block) -> None:
 
     block_level = game.current_map_name
 
+    overlay_id = 0
+
     def update() -> None:
         if game.current_map_name != block_level:
             game.unregister_event(update_id)
@@ -53,6 +57,32 @@ def place(block) -> None:
         if dist < 2:
             game.player.move_allowed = False
             game.current_map.blocks[block.y][block.x] = [type(block)(2, '', block.x, block.y, {})]
+
+            game.unregister_event(update_id)
+
+            nonlocal overlay_id
+            overlay_id = game.register_event(Event.OVERLAY, overlay)
+
+    grandma_x = block.x * TILE_SIZE
+    grandma_y = block.y * TILE_SIZE
+    timer = 0
+
+    def overlay(screen: pygame.Surface) -> None:
+        nonlocal grandma_x, grandma_y, timer
+        if game.current_map_name != 'house_cursed':
+            game.player.move_allowed = True
+            game.unregister_event(overlay_id)
+            return
+
+        screen.blit(grandma_image, (grandma_x, grandma_y))
+        if timer < 15:
+            grandma_x -= 1
+            game.player.x -= 1
+        else:
+            grandma_y += 1
+            game.player.y += 1
+
+        timer += 1
 
     update_id = game.register_event(Event.UPDATE, update)
 
