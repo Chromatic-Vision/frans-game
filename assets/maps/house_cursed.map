@@ -7,5 +7,5 @@
 0|2|2|2|2|2|2|2|2|14:message=Trouvé.:width=5:oy=-1;2;15:angry=true:left=true|2|0
 0|2|2|2|2|2|2|2|2|2|2|0
 0|2|2|2|2|2|2|2|2|2|2|0
-0|0|0|0|0|5:to=jail|5:to=jail|0|0|0|0|0
+5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0|5:to=jail;0
 script: house_cursed.py
