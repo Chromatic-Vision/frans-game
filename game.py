@@ -19,7 +19,7 @@ class Game:
         _ = pygame.display.set_mode((0, 0))  # fix bug on windows not going fullscreen
 
         try:
-            pygame.display.set_icon(pygame.image.load("icon.ico"))
+            pygame.display.set_icon(pygame.image.load("assets/images/icon.ico"))
         except FileNotFoundError:
             print("./icon.ico not found, skipping icon...")
 

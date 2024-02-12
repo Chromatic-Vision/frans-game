@@ -19,26 +19,9 @@ for letter in raw:
     for x in range(FONT_SIZE):
         for y in range(FONT_SIZE):
             c = raw[letter][y][x]
-            if c == [0, 0, 0]:
-                c = None
+            if c != [0, 0, 0]:
+                c = [255, 140, 0]
 
-                for dy in [-1, 0, 1]:
-                    for dx in [-1, 0, 1]:
-                        if x + dx < 0 or y + dy < 0:
-                            continue
-                        if dx == 0 and dy == 0:
-                            continue
-
-                        try:
-                            oc = raw[letter][y + dy][x + dx]
-                        except IndexError:
-                            continue
-                        if oc != [0, 0, 0]:
-                            c = [100, 100, 100]
-            else:
-                c = [255, 255, 255]
-
-            if c is not None:
                 pygame.draw.rect(s, c, (x, y, 1, 1))
                 if x > width:
                     width = x
