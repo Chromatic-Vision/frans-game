@@ -29,6 +29,7 @@ def place(block) -> None:
         dist = abs(block.x - game.player.x / TILE_SIZE) + abs(block.y - game.player.y / TILE_SIZE)
         if dist < 2:
             rect = (max(block.x * TILE_SIZE - width // 2, 0), block.y * TILE_SIZE + oy, width, 10)
+            print(rect)
             game.text_renderer.render(screen, rect, message)
 
             if len(messages) != 1:

@@ -4,6 +4,7 @@ from game import TILE_SIZE
 from player import Direction
 import pygame
 import os.path
+import random
 
 
 map_name = None

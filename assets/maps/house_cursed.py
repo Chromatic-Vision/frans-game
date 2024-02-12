@@ -75,14 +75,17 @@ def place(block) -> None:
             return
 
         screen.blit(grandma_image, (grandma_x, grandma_y))
-        if timer < 15:
-            grandma_x -= 1
-            game.player.x -= 1
-        else:
-            grandma_y += 1
-            game.player.y += 1
+        if timer % 2 == 0:
+            if timer < 15 * 2:
+                grandma_x -= 1
+                game.player.x -= 1
+            else:
+                grandma_y += 1
+                game.player.y += 1
 
         timer += 1
+
+        game.text_renderer.render(screen, (grandma_x - TILE_SIZE, grandma_y - TILE_SIZE, 1000, 1000), 'Trouvé!')
 
     update_id = game.register_event(Event.UPDATE, update)
 

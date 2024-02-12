@@ -20,7 +20,8 @@ def update() -> None:
             game.player.move_allowed = True
 
         game.player.x -= 1
-        # game.player.y += 2
+        if game.player.y < 10 * TILE_SIZE:
+            game.player.y += 1
 
 
 
