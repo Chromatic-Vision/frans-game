@@ -1,0 +1,12 @@
+16|16|16|16|16|16|16|16|16|16|16|16|16
+16|16|16|16|16|16|16|16|16|16|16|16|16
+16|16|16|16|16|16;15:angry=true:left=false|16|16;15:angry=true:left=true|16|16|16|16|16
+16|16|16|16|16;15:angry=true:left=false|16|16|16|16;15:angry=true:left=true|16|16|16|16
+16|16|16|16;15:angry=true:left=false|16|16|16|16|16|16;15:angry=true:left=true|16|16|16
+16|16|16;15:angry=true:left=false|16|16|16|16|16|16|16|16;15:angry=true:left=true|16|16
+16|16|16|16;15:angry=true:left=false|16|16|16|16|16|16;15:angry=true:left=true|16|16|16
+16|16|16|16|16;15:angry=true:left=false|16|16|16|16;15:angry=true:left=true|16|16|16|16
+16|16|16|16|16|16;15:angry=true:left=false|16|16;15:angry=true:left=true|16|16|16|16|16
+16|16|16|16|16|16|16|16|16|16|16|16|16
+16|16|16|16|16|16|16|16|16|16|16|16|16
+script: jail.py
